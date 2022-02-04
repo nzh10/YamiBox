@@ -19,22 +19,28 @@
         </Grid.ColumnDefinitions>
         
         <Label Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">Input Number: </Label>
-        <!-- TODO: use dynamic (pencentage) margin -->
-        <TextBox Name="inputBox" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20,0,20,0"></TextBox>
+        <!-- TODO: use dynamic (pencentage) margin and height -->
+        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" 
+                 Name="inputBox" TextChanged="inputBox_TextChanged"
+                 HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                 Margin="20,0,20,0" TextWrapping="Wrap" Height="40"></TextBox>
         
         <Label Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">Conversion Type: </Label>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <RadioButton GroupName="type">Binary</RadioButton>
-                <RadioButton GroupName="type">Octal</RadioButton>
-                <RadioButton GroupName="type">Hexdemical</RadioButton>
+            <StackPanel Name="buttonPanel"  Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <RadioButton Name="binRadioButton" GroupName="type" Click="radioButton_Click">Binary</RadioButton>
+                <RadioButton Name="octRadioButton" GroupName="type" Click="radioButton_Click">Octal</RadioButton>
+                <RadioButton Name="hexRadioButton" GroupName="type" Click="radioButton_Click">Hexdemical</RadioButton>
             </StackPanel>
             <Separator Width="20" Background="Transparent" /> <!-- TODO: use dynamic (pencentage) width -->
             <Button Name="calcButton" HorizontalAlignment="Center" VerticalAlignment="Center" Click="calcButton_Click">Go!</Button>
         </StackPanel>
 
         <Label Grid.Row="2" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">Result: </Label>
-        <!-- TODO: use dynamic (pencentage) margin -->
-        <TextBox Name="resultBox" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20,0,20,0"></TextBox>
+        <!-- TODO: use dynamic (pencentage) margin and height -->
+        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+                 Name="resultBox" IsReadOnly="True"
+                 HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                 Margin="20,0,20,0" TextWrapping="Wrap" Height="40"></TextBox>
     </Grid>
 </Window>
