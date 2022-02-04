@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -58,7 +60,7 @@ namespace NumConverter
                     switch (button.Name)
                     {
                         case "hexRadioButton":
-                            resultBox.Text = parsedInt.ToString("X");
+                            resultBox.Text = "0x" + parsedInt.ToString("X");
                             break;
                         case "binRadioButton":
                             {
@@ -118,6 +120,63 @@ namespace NumConverter
             }
         }
 
+        private enum ConvertType { BinType, OctType, HexType, InvalidType };
+        private Regex rgx = new Regex(@"^[a-f0-9]+$");
+        private void backButton_Click(object sender, RoutedEventArgs e)
+        {
+            string str = resultBox.Text.ToLower();
+            if(str.Length == 0) return;
+
+            ConvertType cvrtType = ConvertType.InvalidType;
+            if (str.StartsWith("0x") && rgx.IsMatch(str.Substring(str.IndexOf("0x") + 2)))
+            {
+                cvrtType = ConvertType.HexType;
+            }
+            else if(str.StartsWith("0") && Regex.IsMatch(str = str.Substring(1), @"^\d+$"))
+            {
+                cvrtType = ConvertType.OctType;
+            }
+            else if(Regex.IsMatch(str, @"^[01]+$"))
+            {
+                cvrtType = ConvertType.BinType;
+            }
+
+            Debug.WriteLine($"cvrtType = {cvrtType}, str={str}");
+            switch(cvrtType)
+            {
+                case ConvertType.BinType:
+                    {
+                        // from https://stackoverflow.com/questions/8774083/c-sharp-convert-large-binary-string-to-decimal-system
+                        var res = System.Numerics.BigInteger.Zero;
+
+                        foreach(var c in str)
+                        {
+                            res <<= 1;
+                            res += c == '1' ? 1 : 0;
+                        }
+
+                        inputBox.Text = res.ToString();
+                        break;
+                    }
+                case ConvertType.HexType:
+                    {
+                        inputBox.Text = System.Numerics.BigInteger.Parse(str.Substring(2), NumberStyles.AllowHexSpecifier).ToString();
+                        break;
+                    }
+                case ConvertType.OctType:
+                    {
+                        // from https://stackoverflow.com/questions/14040483/biginteger-parse-octal-string
+                        inputBox.Text = str.Aggregate(new System.Numerics.BigInteger(), (b, c) => b * 8 + c - '0').ToString();
+                        break;
+                    }
+                default:
+                    {
+                        MessageBox.Show("Invalid number for converting back");
+                        break;
+                    }
+            }
+}
+
         private void inputBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             // from https://stackoverflow.com/questions/4085471/allow-only-numeric-entry-in-wpf-text-box/4085607
@@ -127,8 +186,18 @@ namespace NumConverter
                 var newText = new StringBuilder();
                 var hasPoint = false;
 
-                foreach(var c in inputBox.Text.ToCharArray())
+                var arr = inputBox.Text.ToCharArray();
+                var i = 0;
+                if (arr.Length == 0) return;
+                else if (arr[0] == '-')
                 {
+                    newText.Append('-');
+                    i = 1;
+                }
+                
+                for (; i < arr.Length; i++ )
+                {
+                    var c = arr[i];
                     if(Char.IsDigit(c) || Char.IsControl(c) || (c == '.' && !hasPoint))
                     {
                         newText.Append(c);

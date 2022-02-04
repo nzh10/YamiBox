@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NumConverter"
         mc:Ignorable="d"
-        Title="Number Converter" Height="240" Width="400">
+        Title="Number Converter" Height="280" Width="450">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -27,20 +27,27 @@
         
         <Label Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">Conversion Type: </Label>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <StackPanel Name="buttonPanel"  Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <RadioButton Name="binRadioButton" GroupName="type" Click="radioButton_Click">Binary</RadioButton>
-                <RadioButton Name="octRadioButton" GroupName="type" Click="radioButton_Click">Octal</RadioButton>
-                <RadioButton Name="hexRadioButton" GroupName="type" Click="radioButton_Click">Hexdemical</RadioButton>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <RadioButton Name="binRadioButton" GroupName="type" Click="radioButton_Click" Margin="5,0,5,0">Binary</RadioButton>
+                <RadioButton Name="octRadioButton" GroupName="type" Click="radioButton_Click" Margin="5,0,5,0">Octal</RadioButton>
+                <RadioButton Name="hexRadioButton" GroupName="type" Click="radioButton_Click" Margin="5,0,5,0">Hexdemical</RadioButton>
             </StackPanel>
-            <Separator Width="20" Background="Transparent" /> <!-- TODO: use dynamic (pencentage) width -->
-            <Button Name="calcButton" HorizontalAlignment="Center" VerticalAlignment="Center" Click="calcButton_Click">Go!</Button>
+            <StackPanel>
+                <Button Name="calcButton" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                    Click="calcButton_Click" Margin="10,5,10,5" Width="40">Go!</Button>
+                <Button Name="backButton" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                    Click="backButton_Click" Margin="10,5,10,5" Width="40">Back!</Button>
+            </StackPanel>
+            
         </StackPanel>
 
         <Label Grid.Row="2" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">Result: </Label>
-        <!-- TODO: use dynamic (pencentage) margin and height -->
-        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
-                 Name="resultBox" IsReadOnly="True"
-                 HorizontalAlignment="Stretch" VerticalAlignment="Center" 
-                 Margin="20,0,20,0" TextWrapping="Wrap" Height="40"></TextBox>
+        <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
+            <!-- TODO: use dynamic (pencentage) margin and height -->
+            <TextBox Name="resultBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                 Margin="20,5,20,5" TextWrapping="Wrap" Height="40"></TextBox>
+            <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,0,5,5">The conversion back to decimal is heuristic.</Label>
+        </StackPanel>
+        
     </Grid>
 </Window>
