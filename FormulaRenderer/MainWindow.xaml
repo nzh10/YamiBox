@@ -1,0 +1,48 @@
+﻿<Window x:Class="FormulaRenderer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+        xmlns:local="clr-namespace:FormulaRenderer"
+        mc:Ignorable="d"
+        Title="LaTeX Formula Renderer" Height="310" Width="500">
+    <DockPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Name="statusTextBlock">The app needs KaTeX for rendering. Loading...</TextBlock>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock>Render Time:</TextBlock>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Name="renderTimeTextBlock"></TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="5*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">Formula:</Label>
+            <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" FontFamily="Consolas"
+                 Name="inputBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                 Margin="20,10,20,10" TextWrapping="Wrap" Text="x^2+y^2=z^2"></TextBox>
+            <Button Name="convertButton" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                    Margin="20,10,20,10" Height="30" Click="convertButton_Click">Render</Button>
+            <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">Result:</Label>
+            <wv2:WebView2 Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Name="webView" Source="about:blank"></wv2:WebView2>
+
+        </Grid>
+    </DockPanel>
+    
+</Window>
